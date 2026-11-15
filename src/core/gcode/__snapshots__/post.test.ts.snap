@@ -1,0 +1,69 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`post-processors > GRBL output 1`] = `
+"(STL2GCODE - verify in simulator and air cut)
+G21
+G90
+G17
+G0 Z5.000
+M3 S18000
+G0 X1.000 Y1.000 Z5.000
+G1 X1.000 Y1.000 Z-5.000 F300.000
+G1 X2.000 Y1.000 Z-5.000 F1000.000
+G0 X2.000 Y1.000 Z5.000
+G0 Z5.000
+M5
+M30
+"
+`;
+
+exports[`post-processors > LinuxCNC output 1`] = `
+"(STL2GCODE - verify in simulator and air cut)
+G21
+G90
+G17
+G0 Z5.000
+M3 S18000
+G0 X1.000 Y1.000 Z5.000
+G1 X1.000 Y1.000 Z-5.000 F300.000
+G1 X2.000 Y1.000 Z-5.000 F1000.000
+G0 X2.000 Y1.000 Z5.000
+G0 Z5.000
+M5
+M30
+"
+`;
+
+exports[`post-processors > Mach3 output 1`] = `
+"(STL2GCODE - verify in simulator and air cut)
+G21
+G90
+G17
+G0 Z5.000
+M3 S18000
+G0 X1.000 Y1.000 Z5.000
+G1 X1.000 Y1.000 Z-5.000 F300.000
+G1 X2.000 Y1.000 Z-5.000 F1000.000
+G0 X2.000 Y1.000 Z5.000
+G0 Z5.000
+M5
+M30
+"
+`;
+
+exports[`post-processors > Marlin output 1`] = `
+"; STL2GCODE - verify in simulator and air cut
+G21
+G90
+G17
+G0 Z5.000
+M3 S18000
+G0 X1.000 Y1.000 Z5.000
+G1 X1.000 Y1.000 Z-5.000 F300.000
+G1 X2.000 Y1.000 Z-5.000 F1000.000
+G0 X2.000 Y1.000 Z5.000
+G0 Z5.000
+M400
+M5
+"
+`;

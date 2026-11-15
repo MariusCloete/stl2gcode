@@ -201,6 +201,10 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Browser application
+node_modules/
+*.tsbuildinfo
+
 # Marimo
 marimo/_static/
 marimo/_lsp/

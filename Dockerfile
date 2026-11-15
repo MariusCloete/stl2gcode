@@ -1,0 +1,14 @@
+FROM docker.io/library/node:22-alpine AS build
+
+WORKDIR /app
+RUN corepack enable
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+COPY index.html tsconfig.json vite.config.ts ./
+COPY src ./src
+COPY public ./public
+RUN pnpm build
+
+FROM docker.io/nginxinc/nginx-unprivileged:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 8080
