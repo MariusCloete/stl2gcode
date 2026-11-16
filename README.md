@@ -31,6 +31,32 @@ docker run --rm -p 8080:8080 stl2gcode-web
 
 Open `http://localhost:8080`. STL processing stays in the browser; the container only serves the built files.
 
+### HTTPS with SWAG
+
+The app uses `crypto.randomUUID()`, which requires a secure browser context. When accessing it from another machine, use HTTPS rather than plain HTTP to a LAN IP address.
+
+The example [SWAG proxy configuration](swag/stl2gcode.subdomain.conf) serves the app at `https://stl2gcode.your-domain`. It expects a container named `stl2gcode` on a user-defined Docker network shared with SWAG, and connects to its internal port 8080.
+
+1. Make sure `stl2gcode.your-domain` resolves to your SWAG host and that SWAG has a browser-trusted certificate covering that name. Configure SWAG's subdomains or wildcard certificate if necessary.
+2. Connect SWAG and the app to the same user-defined Docker network. For example, after building the image, start the app with the network name used by SWAG:
+
+   ```sh
+   docker run -d --name stl2gcode --restart unless-stopped \
+     --network YOUR_SWAG_NETWORK stl2gcode-web
+   ```
+
+   Replace `YOUR_SWAG_NETWORK` with the actual network name. If the app is already running under that name, recreate it on the shared network instead. A host port mapping is not needed for this proxy.
+3. Copy `swag/stl2gcode.subdomain.conf` into SWAG's `/config/nginx/proxy-confs/` directory (the corresponding directory in its host appdata), then validate and reload Nginx:
+
+   ```sh
+   docker exec swag nginx -t
+   docker exec swag nginx -s reload
+   ```
+
+   Replace `swag` if your SWAG container has a different name. Only reload if the configuration test succeeds. Visit `https://stl2gcode.your-domain` using the certificate-covered hostname, not the LAN IP.
+
+This example does not enable authentication. If the hostname is reachable from the internet, configure access controls in SWAG as appropriate.
+
 ### Debugging the web app
 
 Run `corepack pnpm dev` and use the URL printed by Vite (typically `http://localhost:5173`). The development server serves the source modules for debugging; the Docker image serves a production build instead.
